@@ -1,0 +1,47 @@
+name: CC的SSL状态
+
+on: 
+  push:
+    branches: 
+      - master
+  schedule:
+    - cron: '0 21 * * *' 
+
+jobs:
+  CheckSSL:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@main
+      with:
+        ref: master
+    - name: Setup node
+      uses: actions/setup-node@main
+      with:
+        node-version: '15.x'
+    - name: Cache node modules
+      uses: actions/cache@main
+      with:
+        path: ~/.npm
+        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+
+    - name: Install & Build
+      if: steps.cache-dependencies.outputs.cache-hit != 'true'
+      run: |
+        npm i
+        git clone https://github.com/ChenYFan/CheckSSL --depth=2
+        npm run build
+        cd CheckSSL
+        chmod +x checker.sh
+        ./checker.sh blog.ccknbc.cc ccknbc.cc www.ccknbc.cc daohang.ccknbc.cc tcb.ccknbc.cc img.ccknbc.cc status.ccknbc.cc ssl.ccknbc.cc
+        cp -rf ./output/ct.json ../public/ct.json
+      
+    - name: Deploy
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GH_TOKEN }}
+        publish_dir: ./public
+        user_name: 'github-actions[bot]'
+        user_email: 'github-actions[bot]@users.noreply.github.com'
+        full_commit_message: '$(date +"%Z %Y-%m-%d %A %H:%M:%S") Updated By Github Actions'
