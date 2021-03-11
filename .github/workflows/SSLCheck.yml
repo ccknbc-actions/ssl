@@ -46,4 +46,4 @@ jobs:
         publish_dir: ./public
         user_name: 'github-actions[bot]'
         user_email: 'github-actions[bot]@users.noreply.github.com'
-        full_commit_message: '$(date +"%Z %Y-%m-%d %A %H:%M:%S") Updated By Github Actions'
+        commit_message: 'Updated By Github Actions'
