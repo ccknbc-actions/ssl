@@ -36,7 +36,7 @@ jobs:
         npm run build
         cd CheckSSL
         chmod +x checker.sh
-        ./checker.sh blog.ccknbc.cc ccknbc.cc www.ccknbc.cc daohang.ccknbc.cc tcb.ccknbc.cc img.ccknbc.cc status.ccknbc.cc ssl.ccknbc.cc status.ccknbc.ml waline.ccknbc.ml
+        ./checker.sh blog.ccknbc.cc ccknbc.cc www.ccknbc.cc daohang.ccknbc.cc tcb.ccknbc.cc img.ccknbc.cc ccknbc.instatus.com ccknbc.statuspage.io ccknbc.freshstatus.io status.ccknbc.ml ssl.ccknbc.cc waline.ccknbc.ml
         cp -rf ./output/ct.json ../public/ct.json
       
     - name: Deploy
